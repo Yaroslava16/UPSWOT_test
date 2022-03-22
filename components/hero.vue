@@ -14,7 +14,7 @@ export default {};
 <style lang="scss" scoped>
 .hero {
   display: inline-flex;
-  align-items: end;
+  align-items: flex-end;
   width: 100%;
   height: 23.802vw;
   padding: 0 0 3.646vw 19.323vw;
