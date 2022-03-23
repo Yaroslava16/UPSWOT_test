@@ -2,14 +2,20 @@
   <div class="todo-wrap">
     <div class="todo-wrap__title">
       <p>Your tasks:</p>
-      <button class="todo-wrap__add-btn">+</button>
+      <button class="todo-wrap__add-btn" @click="addTask">+</button>
     </div>
     <ul class="todo-wrap__list">
       <li class="todo-wrap__item" v-for="(task, i) in todoList" :key="i">
         {{ task.text }}
+        <div class="todo-wrap__item-btn-wrap">
+          <button class="todo-wrap__item-btn">
+            <img src="~/assets/edit_icon.svg" alt="" />
+          </button>
+          <button class="todo-wrap__item-btn" @click="removeTask(i)">
+            <img src="~/assets/remove_icon.svg" alt="" />
+          </button>
+        </div>
       </li>
-      <!-- <li class="todo-wrap__item">2222222</li>
-      <li class="todo-wrap__item">3333333333</li> -->
     </ul>
   </div>
 </template>
@@ -18,6 +24,9 @@
 export default {
   data() {
     return {
+      newTask: {
+        text: "new task",
+      },
       todoList: [
         {
           text: "11111111111111111111111111111111111111111111111111111",
@@ -40,23 +49,30 @@ export default {
       ],
     };
   },
-  // props: {
-  //   todoList: [],
-  // },
+  methods: {
+    addTask() {
+      this.todoList.unshift(this.newTask);
+    },
+    removeTask(i) {
+      this.todoList.splice(i, 1);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .todo-wrap {
-  width: 33vw;
+  width: 52vw;
+  height: 29vw;
   margin: 0 auto;
-
   border-radius: 0.6vw;
   background-color: #e1e9ff;
+  overflow-y: scroll;
+
   &__add-btn {
     position: absolute;
     top: 2.5vw;
-    right: 2vw;
+    right: 4.3vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,16 +81,24 @@ export default {
     height: 3vw;
 
     border-radius: 50%;
-    background-color: #2f62f1;
-    color: #fff;
-    font-size: 2vw;
+    background-color: #fff;
+    color: rgb(240, 9, 9);
+    font-weight: 600;
+    font-size: 2.11vw;
+    transition-duration: 0.5s;
+
     cursor: pointer;
+    &:hover {
+      color: #fff;
+      background-color: rgb(240, 9, 9);
+    }
   }
   &__title {
-    position: relative;
+    position: fixed;
+    width: 50.7vw;
     padding: 0.6vw;
     height: 4.167vw;
-    background-color: #0095ff82;
+    background-color: #00afed;
     font-size: 2vw;
     font-weight: 500;
     text-align: center;
@@ -85,15 +109,40 @@ export default {
     }
   }
   &__list {
-    padding: 1vw;
+    padding: 5vw 1vw 1vw;
   }
+
   &__item {
+    display: flex;
+    justify-content: space-between;
     padding: 0.5vw 0.5vw 0;
     font-weight: 500;
     font-size: 1.5vw;
     line-height: 3vw;
     border-bottom: 2px solid #fff;
     word-break: break-all;
+    &-btn {
+      cursor: pointer;
+      transition-duration: 0.5s;
+      img {
+        width: 2.5vw;
+      }
+
+      &:not(:last-child) {
+        margin-right: 2vw;
+      }
+
+      &:hover,
+      &:focus {
+        transform: scale(1.2);
+      }
+    }
+    &-btn-wrap {
+      display: flex;
+      margin-left: 2vw;
+      padding: 0.5vw;
+      right: 0;
+    }
   }
 }
 </style>
