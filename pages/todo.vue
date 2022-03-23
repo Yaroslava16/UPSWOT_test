@@ -6,12 +6,19 @@
     <div class="todo__bottom-part"></div>
     <div class="todo__content">
       <p class="todo__content-title">Thank you ${name}!</p>
+      <Todo />
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import Todo from "~/components/todo.vue";
+export default {
+
+  components: {
+    Todo,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -45,6 +52,8 @@ export default {};
     background-color: #fff;
 
     &-title {
+      margin-bottom: 2vw;
+
       font-weight: 700;
       font-size: 3.125vw;
       line-height: 156.69%;
