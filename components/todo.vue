@@ -6,9 +6,9 @@
     </div>
     <ul class="todo-wrap__list">
       <li class="todo-wrap__item" v-for="(task, i) in todoList" :key="i">
-        {{ task.text }}
+        <p>{{ task.text }}</p>
         <div class="todo-wrap__item-btn-wrap">
-          <button class="todo-wrap__item-btn">
+          <button class="todo-wrap__item-btn" @click="editTask(i)">
             <img src="~/assets/edit_icon.svg" alt="" />
           </button>
           <button class="todo-wrap__item-btn" @click="removeTask(i)">
@@ -17,6 +17,13 @@
         </div>
       </li>
     </ul>
+    <input
+      class="todo-wrap__input"
+      v-if="editInput"
+      type="text"
+      v-model="newTask.text"
+      v-on:keyup.enter="editInput = !editInput"
+    />
   </div>
 </template>
 
@@ -24,34 +31,25 @@
 export default {
   data() {
     return {
+      editInput: false,
       newTask: {
-        text: "new task",
+        text: "",
       },
-      todoList: [
-        {
-          text: "11111111111111111111111111111111111111111111111111111",
-        },
-        {
-          text: "222222222222222222222222222222222222222222222222222222222222222222222",
-        },
-        {
-          text: "333333333333333333333333333333333333333333333333333333333333333333333333333333333333333",
-        },
-        {
-          text: "44444444444444444444444444",
-        },
-        {
-          text: "5555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555",
-        },
-        {
-          text: "666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666",
-        },
-      ],
+      todoList: [],
     };
   },
   methods: {
     addTask() {
+      this.editInput = true;
       this.todoList.unshift(this.newTask);
+      this.newTask.text = " ";
+    },
+    editTask(i) {
+      for (const task in this.todoList) {
+        if (task == i) {
+          this.editInput = true;
+        }
+      }
     },
     removeTask(i) {
       this.todoList.splice(i, 1);
@@ -113,14 +111,19 @@ export default {
   }
 
   &__item {
+    position: relative;
     display: flex;
     justify-content: space-between;
-    padding: 0.5vw 0.5vw 0;
+    padding: 3.5vw 0.5vw 0;
     font-weight: 500;
     font-size: 1.5vw;
     line-height: 3vw;
     border-bottom: 2px solid #fff;
     word-break: break-all;
+    p {
+      width: 82%;
+    }
+
     &-btn {
       cursor: pointer;
       transition-duration: 0.5s;
@@ -138,11 +141,22 @@ export default {
       }
     }
     &-btn-wrap {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
       display: flex;
       margin-left: 2vw;
       padding: 0.5vw;
       right: 0;
     }
+  }
+  &__input {
+    position: absolute;
+    top: 31.8%;
+    left: 14%;
+    width: 60%;
+    padding: 0.5vw;
+    font-size: 1.5vw;
   }
 }
 </style>
